@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -42,7 +41,6 @@ const Signup = () => {
     return email.endsWith('@gmail.com');
   };
 
-  // Step 1: Send OTP
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.email.endsWith('@gmail.com')) {
@@ -83,7 +81,6 @@ const Signup = () => {
     }
   };
 
-  // Step 2: Verify OTP
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -106,7 +103,6 @@ const Signup = () => {
     }
   };
 
-  // Step 3: Register (send OTP as well)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -140,7 +136,6 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      // Pass OTP to register
       const success = await register(formData.name, formData.email, formData.password, otp);
       if (success) {
         toast({
