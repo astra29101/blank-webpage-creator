@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Zap, Shield, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useGoogleAuthCallback } from '@/hooks/useGoogleAuthCallback';
 
@@ -170,26 +170,34 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/20 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-green-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+      </div>
+      
+      <div className="relative max-w-md w-full space-y-8">
         <div className="text-center">
-          <Link to="/" className="flex items-center justify-center space-x-2 mb-6">
-            <BookOpen className="w-10 h-10 text-blue-600" />
-            <span className="text-2xl font-bold text-gray-900">EduFlow</span>
+          <Link to="/" className="flex items-center justify-center space-x-3 mb-8 group">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-xl flex items-center justify-center shadow-lg group-hover:animate-glow">
+              <BookOpen className="w-7 h-7 text-white" />
+            </div>
+            <span className="text-3xl font-bold gradient-text">EduFlow</span>
           </Link>
-          <h2 className="text-3xl font-bold text-gray-900">Join EduFlow</h2>
-          <p className="mt-2 text-gray-600">Create your student account and start learning today</p>
+          <h2 className="text-4xl font-bold text-gray-900 mb-3">Join the Future</h2>
+          <p className="text-gray-600 text-lg">Create your account and start your learning journey today</p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Create Your Account</CardTitle>
+        <Card className="bg-white/80 backdrop-blur-md border-0 shadow-2xl modern-shadow-lg">
+          <CardHeader className="text-center pb-4">
+            <CardTitle className="text-2xl font-bold text-gray-900">Create Your Account</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-6">
             {step === 'email' ? (
               <form onSubmit={handleSendOtp} className="space-y-6">
-                <div>
-                  <Label htmlFor="email">Email Address</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-gray-700 font-semibold">Email Address</Label>
                   <Input
                     id="email"
                     name="email"
@@ -198,19 +206,45 @@ const Signup = () => {
                     onChange={handleChange}
                     required
                     placeholder="Enter your Gmail address"
-                    className="mt-1"
+                    className="h-12 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
                   />
-                  <p className="text-sm text-gray-500 mt-1">Must be a Gmail address</p>
+                  <p className="text-sm text-gray-500 flex items-center">
+                    <Shield className="w-4 h-4 mr-1" />
+                    Must be a Gmail address for verification
+                  </p>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? 'Sending OTP...' : 'Send OTP'}
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300" 
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Sending OTP...
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <Zap className="w-4 h-4 mr-2" />
+                      Send Verification Code
+                    </div>
+                  )}
                 </Button>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-slate-200"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+                  </div>
+                </div>
 
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full flex items-center justify-center gap-2"
+                  className="w-full h-12 border-2 border-slate-200 hover:border-slate-300 rounded-xl transition-all duration-200"
                   onClick={() => {
                     window.location.href = `${SERVER_URL}/api/auth/google`;
                   }}
@@ -218,22 +252,30 @@ const Signup = () => {
                   <img
                     src="https://developers.google.com/identity/images/g-logo.png"
                     alt="Google"
-                    className="w-5 h-5"
+                    className="w-5 h-5 mr-3"
                   />
                   Continue with Google
                 </Button>
 
-                <div className="text-center">
+                <div className="text-center pt-4">
                   <span className="text-gray-600">Already have an account? </span>
-                  <Link to="/login" className="text-blue-600 hover:text-blue-500 font-medium">
+                  <Link to="/login" className="text-blue-600 hover:text-blue-500 font-semibold transition-colors">
                     Sign in
                   </Link>
                 </div>
               </form>
             ) : step === 'otp' && !otpVerified ? (
               <form onSubmit={handleVerifyOtp} className="space-y-6">
-                <div>
-                  <Label htmlFor="otp">OTP</Label>
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                    <Shield className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Verify Your Email</h3>
+                  <p className="text-gray-600">Enter the 6-digit code we sent to {formData.email}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="otp" className="text-gray-700 font-semibold">Verification Code</Label>
                   <Input
                     id="otp"
                     name="otp"
@@ -241,80 +283,117 @@ const Signup = () => {
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     required
-                    placeholder="Enter the OTP sent to your email"
-                    className="mt-1"
+                    placeholder="Enter 6-digit code"
+                    className="h-12 border-2 border-slate-200 rounded-xl focus:border-green-500 focus:ring-green-500/20 transition-all duration-200 text-center text-lg tracking-widest"
+                    maxLength={6}
                   />
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? 'Verifying OTP...' : 'Verify OTP'}
+
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300" 
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Verifying...
+                    </div>
+                  ) : (
+                    'Verify Code'
+                  )}
                 </Button>
               </form>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Enter your full name"
-                    className="mt-1"
-                  />
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Complete Your Profile</h3>
+                  <p className="text-gray-600">Just a few more details to get started</p>
                 </div>
 
-                <div>
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="Enter your Gmail address"
-                    className="mt-1"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">Must be a Gmail address</p>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-gray-700 font-semibold">Full Name</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter your full name"
+                      className="h-12 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-gray-700 font-semibold">Email Address</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter your Gmail address"
+                      className="h-12 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
+                      disabled
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="password" className="text-gray-700 font-semibold">Password</Label>
+                    <Input
+                      id="password"
+                      name="password"
+                      type="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                      placeholder="Create a strong password"
+                      className="h-12 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword" className="text-gray-700 font-semibold">Confirm Password</Label>
+                    <Input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type="password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                      placeholder="Confirm your password"
+                      className="h-12 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    placeholder="Create a password"
-                    className="mt-1"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
-                  <Input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    placeholder="Confirm your password"
-                    className="mt-1"
-                  />
-                </div>
-
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? 'Creating Account...' : 'Create Account'}
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300" 
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Creating Account...
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <Zap className="w-4 h-4 mr-2" />
+                      Create My Account
+                    </div>
+                  )}
                 </Button>
 
-                <div className="text-center">
+                <div className="text-center pt-4">
                   <span className="text-gray-600">Already have an account? </span>
-                  <Link to="/login" className="text-blue-600 hover:text-blue-500 font-medium">
+                  <Link to="/login" className="text-blue-600 hover:text-blue-500 font-semibold transition-colors">
                     Sign in
                   </Link>
                 </div>
