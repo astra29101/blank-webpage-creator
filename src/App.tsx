@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,7 +15,7 @@ import StudentDashboard from "./pages/student/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
 import EducatorDashboard from "./pages/educator/Dashboard";
 import NotFound from "./pages/NotFound";
-// import GoogleAuthCallback from "./pages/GoogleAuthCallback";
+import GoogleAuthCallback from "./pages/GoogleAuthCallback";
 // Student Pages
 import MyLearning from "./pages/student/MyLearning";
 import CourseContent from "./pages/student/CourseContent";
