@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -5,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000';
 
-export const useGoogleAuthCallback = () => {
+const GoogleAuthCallback = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { setUser } = useAuth();
@@ -22,7 +23,6 @@ export const useGoogleAuthCallback = () => {
       const data = await response.json();
       if (response.ok && data.user) {
         localStorage.setItem('lms_user', JSON.stringify(data.user));
-        // Optionally: setUser(data.user); // If you want to update context here
         return data.user;
       }
     } catch (error) {
@@ -59,7 +59,14 @@ export const useGoogleAuthCallback = () => {
     }
   }, [location.search, navigate, toast, setUser]);
 
-  return <div>Logging you in with Google...</div>;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-lg">Logging you in with Google...</p>
+      </div>
+    </div>
+  );
 };
 
-// export default GoogleAuthCallback;
+export default GoogleAuthCallback;

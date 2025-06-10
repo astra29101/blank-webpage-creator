@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,7 +16,7 @@ import StudentDashboard from "./pages/student/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
 import EducatorDashboard from "./pages/educator/Dashboard";
 import NotFound from "./pages/NotFound";
-// import GoogleAuthCallback from "./pages/GoogleAuthCallback";
+import GoogleAuthCallback from "./pages/GoogleAuthCallback";
 // Student Pages
 import MyLearning from "./pages/student/MyLearning";
 import CourseContent from "./pages/student/CourseContent";
@@ -64,10 +65,6 @@ const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode;
     return <Navigate to="/login" replace />;
   }
   
-  // if (!allowedRoles.includes(user.role)) {
-  //   return <Navigate to={`/${user.role}`} replace />;
-  // }
-  
   return <>{children}</>;
 };
 
@@ -83,10 +80,6 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
   
-  // if (user) {
-  //   return <Navigate to={`/${user.role}`} replace />;
-  // }
-  
   return <>{children}</>;
 };
 
@@ -100,7 +93,7 @@ const AppContent = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/courses/:courseId" element={<CourseDetails />} />
-          {/* <Route path="/GoogleAuthCallback" element={<GoogleAuthCallback />} /> */}
+          <Route path="/GoogleAuthCallback" element={<GoogleAuthCallback />} />
 
           {/* Auth Routes */}
           <Route path="/login" element={
@@ -269,11 +262,11 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-        <AuthProvider>
-      <BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
           <AppContent />
-      </BrowserRouter>
-        </AuthProvider>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
